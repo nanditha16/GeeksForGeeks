@@ -1,5 +1,6 @@
 package com.algo.linkedList;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
 
 public class CircularLinkedList {
@@ -162,6 +163,161 @@ public class CircularLinkedList {
 		 
 	}
 	
+	/*
+	 * Reverse a linked List - Iterative method
+	 */
+	static Node reverse(Node head){
+		Node current = head; 
+        Node prev = null; 
+        Node next = null; 
+        
+        while (current.next != null) { 
+        	//save next value
+            next = current.next; 
+            
+            // Inserting node at start of new list
+            current.next = prev; 
+            prev = current; 
+            
+            //advance to next
+            current = next; 
+        } 
+        head = current; 
+        head.next = prev;
+       return head;
+		
+	}
+	
+	/*
+	 * Reverse a linked List - Recursivly method
+	 * Requires extra space.
+	 */
+	static Node reverseRecursively(Node head){
+		Node newHead; 
+        
+		//base case
+        if (head.next == null) { 
+        	return head;
+        }
+        newHead = reverseRecursively(head.next);
+        
+        // reverse the link
+        head.next.next = head;
+        head.next = null;
+       return newHead;
+	}
+
+	/*
+	 * Reverse a Linked List in groups of given size
+	 */
+	static Node reverseK(Node head, int k){
+		Node current = head; 
+	    Node next = null; 
+	    Node prev = null; 
+	 
+	    int count = 0;
+	    
+	    /* Reverse first k nodes of linked list */
+	    while(count < k && current != null) {
+	    	//save next value
+            next = current.next; 
+            
+            // Inserting node at start of new list
+            current.next = prev; 
+            prev = current; 
+            
+            //advance to next
+            current = next; 
+            count++;
+	    }
+	    
+	    /*
+	     * next is now a pointer to (k+1)th node 
+	     * Recursively call for the list starting from current.
+	     * making rest of the list as next of first node 
+	     */
+	    if (next != null)  {
+	          head.next = reverseK(next, k); 
+	    }
+		return prev;
+	}
+	
+	/*
+	 * Reverse a Linked List in groups of given size using Stack
+	 */
+	static Node reverseKUsingStack(Node head, int k){
+		// Create a stack of Node*  
+		ArrayDeque<Node> mystack = new ArrayDeque<Node> ();  
+		Node current = head;  
+	    Node prev = null;  
+	  
+	    while (current != null) {
+	    	int count = 0; 
+	    	//current == NULL or count >= k end loop - push k elements
+	    	while (current != null && count < k) 
+	        {
+	    		mystack.push(current);  
+	            current = current.next;  
+	            count++; 
+	        }
+	    	
+	    	//pop k elemenst
+	    	while (mystack.size() > 0)  
+	        {  
+	    		// If final list has not been started yet.
+	    		if (prev == null) 
+	            {  
+	                prev = mystack.peek();  
+	                head = prev;  
+	                mystack.pop();  
+	            }  
+	            else
+	            {  
+	                prev.next = mystack.peek();  
+	                prev = prev.next;  
+	                mystack.pop();  
+	            }  
+	        }
+	    	
+	    }
+	    // Next of last element will point to NULL.  
+	    prev.next = null;  
+	  
+		return head;
+	
+	}
+	
+	/*
+	 * Reverse a circular List
+	 */
+	static Node reverseCircular(Node head){
+		// if list is empty  
+	    if (head == null) {
+	    	return null; 
+	    }
+	    
+	    Node current = head; 
+	    Node next = null; 
+	    Node prev = null; 
+	 
+	    while (current.next != null) { 
+        	//save next value
+            next = current.next; 
+            
+            // Inserting node at start of new list
+            current.next = prev; 
+            prev = current; 
+            
+            //advance to next
+            current = next; 
+        } 
+        //last node point to the first node  
+	    (head).next = prev;
+	    return head;
+		
+	}
+		
+	
 	//Driver
 	public static void main(String[] args) {
 		// Start with empty list 
@@ -180,9 +336,6 @@ public class CircularLinkedList {
 	    System.out.print("Display Circular list: \n"); 
 	    displayCircularList(head);
 	    
-	    // System.out.print("Display Singly list: \n"); 
-	    //displaySinglyList(head);
-
 	    // detect a loop - O(<=n))
 	    System.out.println(detectLoop(head));
 	   
@@ -211,6 +364,44 @@ public class CircularLinkedList {
         displaySinglyList(n1);
         displaySinglyList(n2);
         
+        System.out.print("To find the reverse of list: \n"); 
+        Node n2Reverse = reverse(n2);
+        displaySinglyList(n2Reverse);
+        
+        Node n2ReverseRecur = reverseRecursively(n2Reverse);
+        displaySinglyList(n2ReverseRecur);
+        
+       
+	    // singly linked list :  1->2->3->4->5->6->7->8->8->9->null 
+        Node reverseTest = null; 
+        reverseTest = push(reverseTest, 9);
+        reverseTest = push(reverseTest, 8);
+        reverseTest = push(reverseTest, 7);
+        reverseTest = push(reverseTest, 6);
+        reverseTest = push(reverseTest, 5);
+        reverseTest = push(reverseTest, 4);
+        reverseTest = push(reverseTest, 3);
+        reverseTest = push(reverseTest, 2); 
+        reverseTest = push(reverseTest, 1); 
+        displaySinglyList(reverseTest);
+       
+        Node reverseK = reverseK(reverseTest, 3);
+        displaySinglyList(reverseK);
+        
+        Node reverseStackK = reverseKUsingStack(reverseK, 3);
+        displaySinglyList(reverseStackK);
+        
+        Node reverseCircular = new Node(1); 
+        reverseCircular.next = new Node(2); 
+        reverseCircular.next.next = new Node(3); 
+        reverseCircular.next.next.next = new Node(4);
+        reverseCircular.next.next.next.next = reverseCircular; 
+        
+        System.out.print("Display Circular reversed list: \n");
+	    displayCircularList(reverseCircular);
+	    reverseCircular(reverseCircular);
+	    displayCircularList(reverseCircular);
+	    
 	}
 
 	
