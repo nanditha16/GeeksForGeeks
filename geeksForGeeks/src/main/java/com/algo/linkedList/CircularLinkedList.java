@@ -4,31 +4,14 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 
 public class CircularLinkedList {
-
-	/* Single Linked list node */
-	static class Node  
-	{ 
-	    int data; 
-	    Node next; 
-	    
-	    public Node() {
-			
-		}
-	    
-	    public Node(int data) {
-	    	this.data = data;
-	    	this.next = null;
-	    }
-	
-	}; 
 	
 	/*
 	 * Convert Singly Linked list to circular linked list
 	 */
-	static Node circular(Node head) 
+	static NodeLinedList circular(NodeLinedList head) 
 	{ 
 	    // start as head
-	    Node start = head; 
+	    NodeLinedList start = head; 
 	  
 	    // traverse till the end  
 	    while (head.next != null) {
@@ -43,9 +26,9 @@ public class CircularLinkedList {
 	/*
 	 * Convert circular linked list to Singly Linked list at given point lastNodeN1
 	 */
-	private static Node singular(Node head, Node lastNodeN1) {
+	private static NodeLinedList singular(NodeLinedList head, NodeLinedList lastNodeN1) {
 		// start as head
-	    Node start = head; 
+	    NodeLinedList start = head; 
 	  
 		while (head != lastNodeN1) {
 	        head = head.next; 
@@ -59,10 +42,10 @@ public class CircularLinkedList {
 	/*
 	 * Add at the start
 	 */
-	static Node push(Node head, int data) 
+	static NodeLinedList push(NodeLinedList head, int data) 
 	{ 
 	    // Allocate dynamic memory for newNode. 
-	    Node newNode = new Node(); 
+	    NodeLinedList newNode = new NodeLinedList(); 
 	  
 	    // Assign the data into newNode. 
 	    newNode.data = data; 
@@ -80,9 +63,9 @@ public class CircularLinkedList {
 	 * Function that display the elements 
 	 * of circular linked list.
 	 */
-	static void displayCircularList( Node node) 
+	static void displayCircularList( NodeLinedList node) 
 	{ 
-	    Node start = node; 
+	    NodeLinedList start = node; 
 	  
 	    while (node.next != start) 
 	    { 
@@ -98,7 +81,7 @@ public class CircularLinkedList {
 	 * Function that display the elements 
 	 * of singly linked list.
 	 */
-	static void displaySinglyList( Node node) 
+	static void displaySinglyList( NodeLinedList node) 
 	{ 
 	    while (node != null) 
 	    { 
@@ -113,10 +96,10 @@ public class CircularLinkedList {
 	 * Floyd’s Cycle-Finding Algorithm only detects loop
 	 * 
 	 */
-	public static int detectLoop(Node node) 
+	public static int detectLoop(NodeLinedList node) 
     { 
-		Node head = node; 
-        Node slow_p = head, fast_p = head; 
+		NodeLinedList head = node; 
+        NodeLinedList slow_p = head, fast_p = head; 
         
         while (slow_p != null && fast_p != null && fast_p.next != null) { 
             slow_p = slow_p.next; 
@@ -133,8 +116,8 @@ public class CircularLinkedList {
 	/*
 	 * To get the point at which loop first starts using HashSet
 	 */
-	private static int detectFirstNodeInLoop(Node head) {
-		HashSet<Node> start = new HashSet<Node>(); 
+	private static int detectFirstNodeInLoop(NodeLinedList head) {
+		HashSet<NodeLinedList> start = new HashSet<NodeLinedList>(); 
         
 		while (head != null) { 
 			// if present in HashSet, then loop is present
@@ -151,9 +134,9 @@ public class CircularLinkedList {
 	/*
 	 * To find merge Node of two linked lists
 	 */
-	private static void findMergeNode(Node n1, Node n2) {
+	private static void findMergeNode(NodeLinedList n1, NodeLinedList n2) {
 		 // Step 1: make a circular link from one link n1
-		 Node lastNodeN1 = circular(n1);
+		 NodeLinedList lastNodeN1 = circular(n1);
 		 
 		 // Step 2: detect the loop point in second link n2
 		 System.out.println(" Merge point is at : "+ detectFirstNodeInLoop(n2));
@@ -166,10 +149,10 @@ public class CircularLinkedList {
 	/*
 	 * Reverse a linked List - Iterative method
 	 */
-	static Node reverse(Node head){
-		Node current = head; 
-        Node prev = null; 
-        Node next = null; 
+	static NodeLinedList reverse(NodeLinedList head){
+		NodeLinedList current = head; 
+        NodeLinedList prev = null; 
+        NodeLinedList next = null; 
         
         while (current.next != null) { 
         	//save next value
@@ -192,8 +175,8 @@ public class CircularLinkedList {
 	 * Reverse a linked List - Recursivly method
 	 * Requires extra space.
 	 */
-	static Node reverseRecursively(Node head){
-		Node newHead; 
+	static NodeLinedList reverseRecursively(NodeLinedList head){
+		NodeLinedList newHead; 
         
 		//base case
         if (head.next == null) { 
@@ -210,10 +193,10 @@ public class CircularLinkedList {
 	/*
 	 * Reverse a Linked List in groups of given size
 	 */
-	static Node reverseK(Node head, int k){
-		Node current = head; 
-	    Node next = null; 
-	    Node prev = null; 
+	static NodeLinedList reverseK(NodeLinedList head, int k){
+		NodeLinedList current = head; 
+	    NodeLinedList next = null; 
+	    NodeLinedList prev = null; 
 	 
 	    int count = 0;
 	    
@@ -245,11 +228,11 @@ public class CircularLinkedList {
 	/*
 	 * Reverse a Linked List in groups of given size using Stack
 	 */
-	static Node reverseKUsingStack(Node head, int k){
+	static NodeLinedList reverseKUsingStack(NodeLinedList head, int k){
 		// Create a stack of Node*  
-		ArrayDeque<Node> mystack = new ArrayDeque<Node> ();  
-		Node current = head;  
-	    Node prev = null;  
+		ArrayDeque<NodeLinedList> mystack = new ArrayDeque<NodeLinedList> ();  
+		NodeLinedList current = head;  
+	    NodeLinedList prev = null;  
 	  
 	    while (current != null) {
 	    	int count = 0; 
@@ -290,15 +273,15 @@ public class CircularLinkedList {
 	/*
 	 * Reverse a circular List
 	 */
-	static Node reverseCircular(Node head){
+	static NodeLinedList reverseCircular(NodeLinedList head){
 		// if list is empty  
 	    if (head == null) {
 	    	return null; 
 	    }
 	    
-	    Node current = head; 
-	    Node next = null; 
-	    Node prev = null; 
+	    NodeLinedList current = head; 
+	    NodeLinedList next = null; 
+	    NodeLinedList prev = null; 
 	 
 	    while (current.next != null) { 
         	//save next value
@@ -317,11 +300,62 @@ public class CircularLinkedList {
 		
 	}
 		
+	/*
+     * Sum of 2 linked list : 
+     * 
+     * Time: O(max(m, n)) where m and n are number of nodes in list l1 and list l2 respectively.
+     * Space: O(1)
+     */
+    public static NodeLinedList sum(NodeLinedList l1, NodeLinedList l2) {
+    	 if (l1 == null) {
+ 	    	return l2; 
+ 	    }
+    	 
+    	 if (l2 == null) {
+ 	    	return l1; 
+ 	    }
+    	
+    	 // reverse l1 and l2
+    	 l1 = reverse(l1);
+    	 l2 = reverse(l2);
+    	 
+    	 //storing head whose reverse is to be returned
+    	 NodeLinedList head = l1; 
+         NodeLinedList prev = null; 
+         int carrier = 0, sum; 
+         
+         while(l1 != null && l2 != null) {
+        	 sum = carrier + l1.data + l2.data;
+        	 l1.data = sum % 10;
+        	 carrier = sum / 10; 
+        	 prev = l1; 
+        	 l1 = l1.next; 
+             l2 = l2.next; 
+         }
+         
+         if(l1 != null||l2 != null) 
+         { 
+             if(l2 != null) prev.next = l2; 
+             l1 = prev.next; 
+             while(l1 != null) 
+             { 
+                 sum = carrier + l1.data; 
+                 l1.data = sum % 10; 
+                 carrier = sum / 10; 
+                 prev = l1; 
+                 l1 = l1.next; 
+             } 
+         } 
+         
+         if(carrier > 0) prev.next = new NodeLinedList(carrier); 
+         return reverse(head); 
+    
+    }
 	
 	//Driver
 	public static void main(String[] args) {
 		// Start with empty list 
-	    Node head = null; 
+	    NodeLinedList head = null; 
 	  
 	    // singly linked list : 17.22.13.14.15
 	    head = push(head, 15); 
@@ -340,18 +374,18 @@ public class CircularLinkedList {
 	    System.out.println(detectLoop(head));
 	   
 	    // list 1 
-        Node n1 = new Node(1); 
-        n1.next = new Node(2); 
-        n1.next.next = new Node(3); 
-        n1.next.next.next = new Node(4); 
-        n1.next.next.next.next = new Node(5); 
-        n1.next.next.next.next.next = new Node(6); 
-        n1.next.next.next.next.next.next = new Node(7); 
+        NodeLinedList n1 = new NodeLinedList(1); 
+        n1.next = new NodeLinedList(2); 
+        n1.next.next = new NodeLinedList(3); 
+        n1.next.next.next = new NodeLinedList(4); 
+        n1.next.next.next.next = new NodeLinedList(5); 
+        n1.next.next.next.next.next = new NodeLinedList(6); 
+        n1.next.next.next.next.next.next = new NodeLinedList(7); 
         
         // list 2 
-        Node n2 = new Node(10); 
-        n2.next = new Node(9); 
-        n2.next.next = new Node(8); 
+        NodeLinedList n2 = new NodeLinedList(10); 
+        n2.next = new NodeLinedList(9); 
+        n2.next.next = new NodeLinedList(8); 
         n2.next.next.next = n1.next.next.next; 
         
         System.out.print("To find the merge point of lists: \n"); 
@@ -365,15 +399,15 @@ public class CircularLinkedList {
         displaySinglyList(n2);
         
         System.out.print("To find the reverse of list: \n"); 
-        Node n2Reverse = reverse(n2);
+        NodeLinedList n2Reverse = reverse(n2);
         displaySinglyList(n2Reverse);
         
-        Node n2ReverseRecur = reverseRecursively(n2Reverse);
+        NodeLinedList n2ReverseRecur = reverseRecursively(n2Reverse);
         displaySinglyList(n2ReverseRecur);
         
        
 	    // singly linked list :  1->2->3->4->5->6->7->8->8->9->null 
-        Node reverseTest = null; 
+        NodeLinedList reverseTest = null; 
         reverseTest = push(reverseTest, 9);
         reverseTest = push(reverseTest, 8);
         reverseTest = push(reverseTest, 7);
@@ -385,16 +419,16 @@ public class CircularLinkedList {
         reverseTest = push(reverseTest, 1); 
         displaySinglyList(reverseTest);
        
-        Node reverseK = reverseK(reverseTest, 3);
+        NodeLinedList reverseK = reverseK(reverseTest, 3);
         displaySinglyList(reverseK);
         
-        Node reverseStackK = reverseKUsingStack(reverseK, 3);
+        NodeLinedList reverseStackK = reverseKUsingStack(reverseK, 3);
         displaySinglyList(reverseStackK);
         
-        Node reverseCircular = new Node(1); 
-        reverseCircular.next = new Node(2); 
-        reverseCircular.next.next = new Node(3); 
-        reverseCircular.next.next.next = new Node(4);
+        NodeLinedList reverseCircular = new NodeLinedList(1); 
+        reverseCircular.next = new NodeLinedList(2); 
+        reverseCircular.next.next = new NodeLinedList(3); 
+        reverseCircular.next.next.next = new NodeLinedList(4);
         reverseCircular.next.next.next.next = reverseCircular; 
         
         System.out.print("Display Circular reversed list: \n");
@@ -402,6 +436,26 @@ public class CircularLinkedList {
 	    reverseCircular(reverseCircular);
 	    displayCircularList(reverseCircular);
 	    
+	    
+	    // to add two linked list nodes
+	    System.out.println("Sum of 2 linked list : ");
+	    NodeLinedList l1 = null; 
+		// singly linked list : 365
+	    l1 = push(l1, 3); 
+	    l1 = push(l1, 6); 
+	    l1 = push(l1, 5); 
+	    
+	    NodeLinedList l2 = null; 
+		// singly linked list : 248
+	    l2 = push(l2, 2); 
+	    l2 = push(l2, 4); 
+	    l2 = push(l2, 8); 
+	    
+	    NodeLinedList l3 = sum(l1, l2); 
+	    displaySinglyList(l3);
+        
+	    
+	   
 	}
 
 	

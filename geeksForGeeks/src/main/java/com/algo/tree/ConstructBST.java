@@ -24,8 +24,8 @@ public class ConstructBST {
 	 *   Add current left and right subtrees to 'node' and add 'node' to list.
 	 *   
 	 */
-	static ArrayList<Node> constructTrees(int start, int end) {
-		ArrayList<Node> list = new ArrayList<Node>(); 
+	static ArrayList<NodeTree> constructTrees(int start, int end) {
+		ArrayList<NodeTree> list = new ArrayList<NodeTree>(); 
         
 		/*  if start > end then subtree will be empty so returning NULL in the list */
 		if(start > end) {
@@ -39,18 +39,18 @@ public class ConstructBST {
 		 */
 		for (int i = start; i <= end; i++) {
 			/*  constructing left subtree   */
-            ArrayList<Node> leftSubtree  = constructTrees(start, i - 1);  
+            ArrayList<NodeTree> leftSubtree  = constructTrees(start, i - 1);  
             
             /*  constructing right subtree  */
-            ArrayList<Node> rightSubtree = constructTrees(i + 1, end);  
+            ArrayList<NodeTree> rightSubtree = constructTrees(i + 1, end);  
     
             /*  now looping through all left and right subtrees and connecting  
             them to ith root  below  */
 	        for (int j = 0; j < leftSubtree.size(); j++) {  
-	            Node left = leftSubtree.get(j);  
+	            NodeTree left = leftSubtree.get(j);  
 	            for (int k = 0; k < rightSubtree.size(); k++) {  
-	                Node right = rightSubtree.get(k);  
-	                Node node = new Node(i);        // making value i as root  
+	                NodeTree right = rightSubtree.get(k);  
+	                NodeTree node = new NodeTree(i);        // making value i as root  
 	                node.left = left;              // connect left subtree  
 	                node.right = right;            // connect right subtree  
 	                list.add(node);                // add this tree to list  
@@ -63,7 +63,7 @@ public class ConstructBST {
 	}
 	
 	public static void main(String[] args) {
-		 ArrayList<Node> totalTreesFrom1toN = constructTrees(1, 3); 
+		 ArrayList<NodeTree> totalTreesFrom1toN = constructTrees(1, 3); 
 		 BinaryTree binaryTree = new BinaryTree();
 		 
 	        /*  Printing preorder traversal of all constructed BSTs   */

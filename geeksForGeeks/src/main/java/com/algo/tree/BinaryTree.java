@@ -13,7 +13,7 @@ public class BinaryTree<T> {
 	}
 	
 	//Root of binary tree
-	Node<T> root;
+	NodeTree<T> root;
 	
 	//
 	static int preIndex = 0; 
@@ -22,10 +22,10 @@ public class BinaryTree<T> {
     
 	
 	// to maintain the node in which the next right subtree is expected
-	static Set<Node<Integer>> set = new HashSet<Node<Integer>>(); 
+	static Set<NodeTree<Integer>> set = new HashSet<NodeTree<Integer>>(); 
 	
 	// to store the path we visited while traversing PreOrder array
-    static ArrayDeque<Node<Integer>> stack = new ArrayDeque<Node<Integer>>(); 
+    static ArrayDeque<NodeTree<Integer>> stack = new ArrayDeque<NodeTree<Integer>>(); 
 	
 	BinaryTree(){
 		root = null;
@@ -34,7 +34,7 @@ public class BinaryTree<T> {
 	/*
 	 * Build a Tree given Pre-Order and InOrder 
 	 */
-	public Node<Integer> buildTreePreIn(int[] in, int[] pre, int inStrt, int inEnd, HashMap<Integer,Integer> mpPreIn) 
+	public NodeTree<Integer> buildTreePreIn(int[] in, int[] pre, int inStrt, int inEnd, HashMap<Integer,Integer> mpPreIn) 
     {
 		// Base case 
 		if (inStrt > inEnd) {
@@ -44,7 +44,7 @@ public class BinaryTree<T> {
 		/* Pick current node from Preorder traversal using preIndex  
 	    and increment preIndex */
 		int curr = pre[preIndex++]; 
-		Node<Integer> tNode = new Node<Integer>(curr); 
+		NodeTree<Integer> tNode = new NodeTree<Integer>(curr); 
 
 		/* If this node has no children then return */
 		 if (inStrt == inEnd) {
@@ -66,13 +66,13 @@ public class BinaryTree<T> {
 	/*
 	 * Build a Tree given Post-Order and InOrder 
 	 */
-	private Node<Integer> buildTreePostIn(int[] in1, int[] post,  HashMap<Integer,Integer> mpPostIn) {
+	private NodeTree<Integer> buildTreePostIn(int[] in1, int[] post,  HashMap<Integer,Integer> mpPostIn) {
 		Index pIndex = new Index();
 		pIndex.index = in1.length-1;
 		return buildTreePostIn(in1, post, 0, in1.length-1, pIndex, mpPostIn);
 	}
 	
-	private Node<Integer> buildTreePostIn(int[] in1, int[] post, int inStrt, int inEnd, Index pIndex, HashMap<Integer,Integer> mpPostIn) {
+	private NodeTree<Integer> buildTreePostIn(int[] in1, int[] post, int inStrt, int inEnd, Index pIndex, HashMap<Integer,Integer> mpPostIn) {
 		// Base case 
 		if (inStrt > inEnd) {
 			return null; 
@@ -81,7 +81,7 @@ public class BinaryTree<T> {
 		 /* Pick current node from Postorder traversal using 
         postIndex and decrement postIndex */
 		int curr = post[pIndex.index]; 
-		Node<Integer> tNode = new Node<Integer>(curr); 
+		NodeTree<Integer> tNode = new NodeTree<Integer>(curr); 
 		(pIndex.index)--;
 		
 		/* If this node has no children then return */
@@ -110,7 +110,7 @@ public class BinaryTree<T> {
 	 * 		3. Visit the root.
 	 * 
 	 */
-	void printPostorder(Node<T> node) {
+	void printPostorder(NodeTree<T> node) {
 		if(node ==null) {
 			return;
 		}
@@ -131,7 +131,7 @@ public class BinaryTree<T> {
 	 * 		3. Traverse the right subtree, i.e., call Inorder(right-subtree)
 	 * 
 	 */
-	void printInorder(Node<T> node) {
+	void printInorder(NodeTree<T> node) {
 		if(node == null) {
 			return;
 		}
@@ -152,7 +152,7 @@ public class BinaryTree<T> {
 	 * 		3. Traverse the right subtree, i.e., call Preorder(right-subtree) 
 	 * 
 	 */
-	void printPreorder(Node<T> node) {
+	void printPreorder(NodeTree<T> node) {
 		if(node ==null) {
 			return;
 		}
@@ -167,14 +167,14 @@ public class BinaryTree<T> {
 	/*
 	 * Mirror the binary tree
 	 */
-	private Node<T> printMirror(Node<T> node) {
+	private NodeTree<T> printMirror(NodeTree<T> node) {
 		if(node == null) {
 			return node;
 		}
 		
 		/* do the subtrees */
-        Node<T> left = printMirror(node.left); 
-        Node<T> right = printMirror(node.right);
+        NodeTree<T> left = printMirror(node.left); 
+        NodeTree<T> right = printMirror(node.right);
         
         /* swap left with right */
         node.left = right; 
@@ -205,11 +205,11 @@ public class BinaryTree<T> {
 	// Driver method 
 	public static void main(String[] args) {
 		BinaryTree<Integer> tree = new BinaryTree<Integer>(); 
-		tree.root = new Node<Integer>(1); 
-        tree.root.left = new Node<Integer>(2); 
-        tree.root.right = new Node<Integer>(3); 
-        tree.root.left.left = new Node<Integer>(4); 
-        tree.root.left.right = new Node<Integer>(5); 
+		tree.root = new NodeTree<Integer>(1); 
+        tree.root.left = new NodeTree<Integer>(2); 
+        tree.root.right = new NodeTree<Integer>(3); 
+        tree.root.left.left = new NodeTree<Integer>(4); 
+        tree.root.left.right = new NodeTree<Integer>(5); 
   
         System.out.println("Preorder(Root, Left, Right) traversal of binary tree is "); 
         tree.printPreorder(); 
@@ -229,7 +229,7 @@ public class BinaryTree<T> {
         	
         }
        
-        Node<Integer> root = tree.buildTreePreIn(in, pre, 0, in.length - 1, mpPreIn); 
+        NodeTree<Integer> root = tree.buildTreePreIn(in, pre, 0, in.length - 1, mpPreIn); 
         tree.printInorder(root); 
         
         System.out.println("\nPreorder(Root, Left, Right) traversal of binary tree build from Post and In Order is "); 
@@ -249,14 +249,14 @@ public class BinaryTree<T> {
            
 	}
 
-	private Node<Integer> buildFullTreePrePost(int[] preFull, int[] postFull) {
+	private NodeTree<Integer> buildFullTreePrePost(int[] preFull, int[] postFull) {
 		// TODO Auto-generated method stub
 		preIndex = 0;
 		
 		return buildFullTreePrePost(preFull, postFull, 0, preFull.length-1, preFull.length);
 	}
 
-	private Node<Integer> buildFullTreePrePost(int[] preFull, int[] postFull, int lowIndex, int highIndex, int length) {
+	private NodeTree<Integer> buildFullTreePrePost(int[] preFull, int[] postFull, int lowIndex, int highIndex, int length) {
 		
 		return null;
 	}

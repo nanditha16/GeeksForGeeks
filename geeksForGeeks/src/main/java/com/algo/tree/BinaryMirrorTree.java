@@ -9,11 +9,11 @@ public class BinaryMirrorTree {
 	public static void main(String[] args) {
 		/* creating a binary tree and entering the nodes */
 		BinaryTree tree = new BinaryTree();
-		tree.root = new Node(1);
-		tree.root.left = new Node(2);
-		tree.root.right = new Node(3);
-		tree.root.left.left = new Node(4);
-		tree.root.left.right = new Node(5);
+		tree.root = new NodeTree(1);
+		tree.root.left = new NodeTree(2);
+		tree.root.right = new NodeTree(3);
+		tree.root.left.left = new NodeTree(4);
+		tree.root.left.right = new NodeTree(5);
 
 		/* print inorder traversal of the input tree */
 		System.out.println("Inorder traversal of input tree is :");

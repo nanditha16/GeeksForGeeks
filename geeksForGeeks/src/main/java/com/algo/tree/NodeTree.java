@@ -15,12 +15,12 @@ import java.util.function.Predicate;
  * 
  * Tree should be complete : 	(2^(height+1) - 1 ) elements
  */
-public class Node<T> {
+public class NodeTree<T> {
 	T key;
-	Node<T> left, right;
+	NodeTree<T> left, right;
 	
 	
-	public Node(T key) {
+	public NodeTree(T key) {
 		super();
 		this.key = key;
 		left = right = null;
@@ -36,12 +36,12 @@ public class Node<T> {
 	 * Queue data structure (LinkedList implements Queue)
 	 * BFS on Binary Tree (linked list as queue)
 	 */
-	public Node<T> bfs(Predicate<T> predicate) {
-		Queue<Node<T>> queue = new LinkedList<Node<T>>();
+	public NodeTree<T> bfs(Predicate<T> predicate) {
+		Queue<NodeTree<T>> queue = new LinkedList<NodeTree<T>>();
 		queue.offer(this);
 		
 		while(!queue.isEmpty()) {
-			Node<T>  node = queue.poll();
+			NodeTree<T>  node = queue.poll();
 			if(predicate.test(node.key)) return node;
 			if(node.left !=null) queue.offer(node.left);
 			if(node.right != null) queue.offer(node.right);
@@ -56,12 +56,12 @@ public class Node<T> {
 	 *   The stack data structure (ArrayDequeue/Stack)
 	 *   DFS on Binary Tree (stack)
 	 */
-	public Node<T> dfs(Predicate<T> predicate) {
-		ArrayDeque<Node<T>> stack = new ArrayDeque<Node<T>>();
+	public NodeTree<T> dfs(Predicate<T> predicate) {
+		ArrayDeque<NodeTree<T>> stack = new ArrayDeque<NodeTree<T>>();
 		stack.push(this);
 		
 		while(!stack.isEmpty()) {
-			Node<T> node = stack.poll();
+			NodeTree<T> node = stack.poll();
 			if(predicate.test(node.key)) return node; //if found 
 			if(node.right != null) stack.push(node.right);
 			if(node.left != null) stack.push(node.left);
