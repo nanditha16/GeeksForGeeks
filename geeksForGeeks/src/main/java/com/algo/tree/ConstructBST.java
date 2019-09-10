@@ -24,8 +24,8 @@ public class ConstructBST {
 	 *   Add current left and right subtrees to 'node' and add 'node' to list.
 	 *   
 	 */
-	static ArrayList<NodeTree> constructTrees(int start, int end) {
-		ArrayList<NodeTree> list = new ArrayList<NodeTree>(); 
+	static ArrayList<NodeTree<Integer> > constructTrees(int start, int end) {
+		ArrayList<NodeTree<Integer> > list = new ArrayList<NodeTree<Integer> >(); 
         
 		/*  if start > end then subtree will be empty so returning NULL in the list */
 		if(start > end) {
@@ -39,18 +39,18 @@ public class ConstructBST {
 		 */
 		for (int i = start; i <= end; i++) {
 			/*  constructing left subtree   */
-            ArrayList<NodeTree> leftSubtree  = constructTrees(start, i - 1);  
+            ArrayList<NodeTree<Integer> > leftSubtree  = constructTrees(start, i - 1);  
             
             /*  constructing right subtree  */
-            ArrayList<NodeTree> rightSubtree = constructTrees(i + 1, end);  
+            ArrayList<NodeTree<Integer> > rightSubtree = constructTrees(i + 1, end);  
     
             /*  now looping through all left and right subtrees and connecting  
             them to ith root  below  */
 	        for (int j = 0; j < leftSubtree.size(); j++) {  
-	            NodeTree left = leftSubtree.get(j);  
+	            NodeTree<Integer>  left = leftSubtree.get(j);  
 	            for (int k = 0; k < rightSubtree.size(); k++) {  
-	                NodeTree right = rightSubtree.get(k);  
-	                NodeTree node = new NodeTree(i);        // making value i as root  
+	                NodeTree<Integer>  right = rightSubtree.get(k);  
+	                NodeTree<Integer>  node = new NodeTree<Integer> (i);        // making value i as root  
 	                node.left = left;              // connect left subtree  
 	                node.right = right;            // connect right subtree  
 	                list.add(node);                // add this tree to list  
@@ -63,8 +63,8 @@ public class ConstructBST {
 	}
 	
 	public static void main(String[] args) {
-		 ArrayList<NodeTree> totalTreesFrom1toN = constructTrees(1, 3); 
-		 BinaryTree binaryTree = new BinaryTree();
+		 ArrayList<NodeTree<Integer> > totalTreesFrom1toN = constructTrees(1, 3); 
+		 BinaryTree<Integer> binaryTree = new BinaryTree<Integer> ();
 		 
 	        /*  Printing preorder traversal of all constructed BSTs   */
 	        System.out.println("Preorder traversals of all constructed BSTs are "); 
