@@ -352,6 +352,84 @@ public class CircularLinkedList {
     
     }
 	
+    /*
+     * 
+     * MergeSort(headRef)
+     * 1) If the head is NULL or there is only one element in the Linked List then return.
+     * 2) Else divide the linked list into two halves.  
+     *      FrontBackSplit(head, &a, &b); // a and b are two halves 
+     * 3) Sort the two halves a and b.
+     *     MergeSort(a);
+     *      MergeSort(b);
+     * 4) Merge the sorted a and b (using SortedMerge() discussed here) 
+     *   and update the head pointer using headRef.
+     *    *headRef = SortedMerge(a, b);
+     *
+     */
+    private static NodeLinedList mergeSort(NodeLinedList h) {
+    	// Base case : if head is null 
+        if (h == null || h.next == null) { 
+            return h; 
+        } 
+        
+        // get the middle of the list 
+        NodeLinedList middle = getMiddle(h); 
+        
+        NodeLinedList nextofmiddle = middle.next; 
+        
+        // set the next of middle node to null 
+        middle.next = null; 
+  
+        // Apply mergeSort on left list 
+        NodeLinedList left = mergeSort(h); 
+  
+        // Apply mergeSort on right list 
+        NodeLinedList right = mergeSort(nextofmiddle); 
+  
+        // Merge the left and right lists 
+        NodeLinedList sortedlist = sortedMerge(left, right); 
+        
+		return sortedlist;
+	}
+    
+    private static NodeLinedList sortedMerge(NodeLinedList a, NodeLinedList b) {
+    	NodeLinedList result = null; 
+        
+    	/* Base cases */
+        if (a == null) 
+            return b; 
+        if (b == null) 
+            return a; 
+        
+        /* Pick either a or b, and recur */
+        if (a.data <= b.data) { 
+            result = a; 
+            result.next = sortedMerge(a.next, b); 
+        } 
+        else { 
+            result = b; 
+            result.next = sortedMerge(a, b.next); 
+        } 
+    	
+		return result;
+	}
+
+	/*
+     * To find the midPoint of the list
+     */
+	private static NodeLinedList getMiddle(NodeLinedList head) {
+		if (head == null) 
+            return head; 
+		
+		NodeLinedList slow = head, fast = head;
+		while(fast.next != null && fast.next.next != null) {
+			slow = slow.next; 
+            fast = fast.next.next; 
+		}
+
+		return slow;
+	}
+
 	//Driver
 	public static void main(String[] args) {
 		// Start with empty list 
@@ -453,10 +531,28 @@ public class CircularLinkedList {
 	    
 	    NodeLinedList l3 = sum(l1, l2); 
 	    displaySinglyList(l3);
-        
-	    
 	   
+	    /* 
+		    * To check Sorting using MergeSort
+		    *  
+		    */
+		    NodeLinedList li = null; 
+			// singly linked list : 2->3->20->5->10->15 
+		    li = push(li, 15); 
+		    li = push(li, 10); 
+		    li = push(li, 5); 
+		    li = push(li, 20); 
+		    li = push(li, 3); 
+		    li = push(li, 2); 
+		    
+		    // Apply merge Sort 
+		    System.out.println("To merge Sort a linked list : ");
+		    displaySinglyList(li);
+		    li = mergeSort(li); 
+		    displaySinglyList(li);
 	}
+
+	
 
 	
 
