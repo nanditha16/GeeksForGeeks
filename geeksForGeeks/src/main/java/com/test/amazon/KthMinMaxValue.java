@@ -63,6 +63,75 @@ public class KthMinMaxValue {
 		System.out.println();		
 	}
 	
+	/*
+	 * To find the Kth element in 2Dmatrix 
+	 * 
+     * Build a min heap which takes O(n) time
+     * Heapify k times which takes O(kLogn) time.
+     * time complexity is O(n + kLogn) time.
+     */
+	private static int kthSmallestIn2DMatix(int[][] matrix, int minKEle) {
+		int result = -1;
+		
+		
+		if(matrix==null || matrix.length==0 || matrix[0].length==0) {
+            return result;
+		}
+		int m = matrix.length;
+        int n = matrix[0].length;
+ 
+        MinimumHeap minHeap = new MinimumHeap(m*n+1); 
+            
+        for(int i=0; i < m; i++) {
+        	for(int j =0; j<n;j++) {
+        		minHeap.insertMinHeap(matrix[i][j]);
+        	}
+        }
+        minHeap.minHeap();
+        
+        System.out.println("\nThe "+minKEle+" Min vals in a given 2D matrix are :");
+		for(int i =0; i < minKEle; i++) {
+			result = minHeap.removeMin();
+			System.out.print( result+ ", "); 
+			
+		}	
+		System.out.println();
+		return result;
+      
+      }
+	
+	private static boolean binarySearch(int[][] matrix, int k) {
+		if(matrix==null || matrix.length==0 || matrix[0].length==0) {
+            return false;
+		}
+		
+		int m = matrix.length;
+        int n = matrix[0].length;
+ 
+        int start = 0;
+        int end = m*n-1;
+ 
+        
+        while(start<=end){
+        	int mid=(start+end)/2;
+            int midX=mid/n;
+            int midY=mid%n;
+            
+            if(matrix[midX][midY]==k) {
+            	 return true;
+            }
+              
+            if(matrix[midX][midY]<k){
+                start=mid+1;
+            }else{
+                end=mid-1;
+            }
+ 
+        }
+		return false;
+		 
+	}
+	
 	public static void main(String[] args) {
 		int arr[] = {5,3,17,10,84,19,6,22,9}; 
 		
@@ -108,6 +177,18 @@ public class KthMinMaxValue {
 			System.out.print( pQueue.poll() + ", "); 
 			
 		}
+        
+        
+        int mat[][] = { {10, 20, 30, 40}, 
+                {15, 25, 35, 45}, 
+                {25, 29, 37, 48}, 
+                {32, 33, 39, 50}, 
+              }; 
+        int k = 7;
+        
+        System.out.println(k+"th smallest element in 2d array matrix: " + kthSmallestIn2DMatix(mat, k));
+        System.out.println("binarySearch 30 in 2Dmatrix: " + binarySearch(mat, 30));
+        
 		
 	}
 
