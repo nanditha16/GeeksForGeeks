@@ -35,12 +35,13 @@ public class BinaryTree<T> {
     search tree (efficient version) */
    public boolean isBST()  { 
 	   NodeTree<Integer> prev = new NodeTree<Integer>(Integer.MIN_VALUE);
-       
-//	   return isBSTUtil((NodeTree<Integer>) root, Integer.MIN_VALUE, 
-//                              Integer.MAX_VALUE); 
-	   return isBSTUtil((NodeTree<Integer>) root, prev);
+  	   return isBSTUtil((NodeTree<Integer>) root, prev);
    }
    
+   /*
+    * 1) Do In-Order Traversal of the given tree and store the result in a temp array.
+    * 2) Check if the temp array is sorted in ascending order, if it is, then the tree is BST.
+    */
    private boolean isBSTUtil(NodeTree<Integer> node, NodeTree<Integer> prev) {
 	   /* an empty tree is BST */
 	     if (node == null) 
@@ -58,25 +59,6 @@ public class BinaryTree<T> {
 	     prev.key = node.key;
 	     return left && isBSTUtil(node.right, prev);
 }
-
-/* Returns true if the given tree is a BST and its 
-   values are >= min and <= max. */
- boolean isBSTUtil(NodeTree<Integer> node, int min, int max) 
- { 
-     /* an empty tree is BST */
-     if (node == null) 
-         return true; 
-
-     /* false if this node violates the min/max constraints */
-     if (node.key < min || node.key > max) 
-         return false; 
-
-     /* otherwise check the subtrees recursively 
-     tightening the min/max constraints */
-     // Allow only distinct values 
-     return (isBSTUtil(node.left, min, node.key-1) && 
-             isBSTUtil(node.right, node.key+1, max)); 
- } 
 
  /* Compute the "maxDepth" of a tree -- the number of  
  nodes along the longest path from the root node  
