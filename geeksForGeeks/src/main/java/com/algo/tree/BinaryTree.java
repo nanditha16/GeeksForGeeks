@@ -13,7 +13,7 @@ public class BinaryTree<T> {
 	}
 	
 	//Root of binary tree
-	NodeTree<T> root;
+	public NodeTree<T> root;
 	
 	//
 	static int preIndex = 0; 
@@ -27,10 +27,78 @@ public class BinaryTree<T> {
 	// to store the path we visited while traversing PreOrder array
     static ArrayDeque<NodeTree<Integer>> stack = new ArrayDeque<NodeTree<Integer>>(); 
 	
-	BinaryTree(){
+	public BinaryTree(){
 		root = null;
 	}
 	
+	/* returns true if given search tree is binary 
+    search tree (efficient version) */
+   public boolean isBST()  { 
+	   NodeTree<Integer> prev = new NodeTree<Integer>(Integer.MIN_VALUE);
+       
+//	   return isBSTUtil((NodeTree<Integer>) root, Integer.MIN_VALUE, 
+//                              Integer.MAX_VALUE); 
+	   return isBSTUtil((NodeTree<Integer>) root, prev);
+   }
+   
+   private boolean isBSTUtil(NodeTree<Integer> node, NodeTree<Integer> prev) {
+	   /* an empty tree is BST */
+	     if (node == null) 
+	         return true; 
+
+	     // left subtree is BST
+	     boolean left = isBSTUtil( node.left, prev);
+	     
+	     // current > prev - true 
+	     if(node.key <= prev.key) {
+	    	 return false;
+	     }
+	     
+	     //update prev
+	     prev.key = node.key;
+	     return left && isBSTUtil(node.right, prev);
+}
+
+/* Returns true if the given tree is a BST and its 
+   values are >= min and <= max. */
+ boolean isBSTUtil(NodeTree<Integer> node, int min, int max) 
+ { 
+     /* an empty tree is BST */
+     if (node == null) 
+         return true; 
+
+     /* false if this node violates the min/max constraints */
+     if (node.key < min || node.key > max) 
+         return false; 
+
+     /* otherwise check the subtrees recursively 
+     tightening the min/max constraints */
+     // Allow only distinct values 
+     return (isBSTUtil(node.left, min, node.key-1) && 
+             isBSTUtil(node.right, node.key+1, max)); 
+ } 
+
+ /* Compute the "maxDepth" of a tree -- the number of  
+ nodes along the longest path from the root node  
+ down to the farthest leaf node.*/
+ public int maxDepth(NodeTree<Integer>  node)  
+{ 
+	
+  if (node == null) 
+      return 0; 
+  else 
+  { 
+      /* compute the depth of each subtree */
+      int lDepth = maxDepth(node.left); 
+      int rDepth = maxDepth(node.right); 
+
+      /* use the larger one */
+      if (lDepth > rDepth) 
+          return (lDepth + 1); 
+       else 
+          return (rDepth + 1); 
+  } 
+} 
 	/*
 	 * Build a Tree given Pre-Order and InOrder 
 	 */

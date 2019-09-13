@@ -16,8 +16,9 @@ import java.util.function.Predicate;
  * Tree should be complete : 	(2^(height+1) - 1 ) elements
  */
 public class NodeTree<T> {
-	T key;
-	NodeTree<T> left, right;
+	public T key;
+	public NodeTree<T> left;
+	public NodeTree<T> right;
 	
 	
 	public NodeTree(T key) {

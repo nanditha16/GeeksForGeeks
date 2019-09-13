@@ -147,6 +147,25 @@ public class BinaryTreeToDoublyLinkedList {
   
         printTreeToCircularDLinkedList(BinaryTreeToCirDLL(tree.root));
         
+        //Check if it is binary tree or not
+        tree = new BinaryTree<Integer>(); 
+        tree.root = new NodeTree<Integer>(4); 
+        tree.root.left = new NodeTree<Integer>(2); 
+        tree.root.right = new NodeTree<Integer>(5); 
+        tree.root.left.left = new NodeTree<Integer>(1); 
+        tree.root.left.right = new NodeTree<Integer>(3); 
+        //tree.root.left.right.right = new NodeTree<Integer>(12);  //not BST
+        
+        if (tree.isBST()) 
+            System.out.println("IS BST"); 
+        else
+            System.out.println("Not a BST"); 
+        
+        
+        // "maxDepth" of a tree 
+        System.out.println("Height of tree is : " +  
+                tree.maxDepth(tree.root)); 
+       
 	}
 
 }
