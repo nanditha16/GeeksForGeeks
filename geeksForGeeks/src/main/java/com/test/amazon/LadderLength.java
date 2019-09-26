@@ -59,19 +59,19 @@ public class LadderLength {
 	    // from any given word. By changing one letter at a time.
 	    HashMap<String, ArrayList<String>> allComboDict = new HashMap<String, ArrayList<String>>();
 		
-	    wordList.forEach(
+	 	//builds the adjacency list first before beginning the breadth first search algorithm.
+        wordList.forEach(
 	            word -> {
 	              for (int i = 0; i < L; i++) {
 	                // Key is the generic word
 	                // Value is a list of words which have the same intermediate generic word.
 	                String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
-	                //builds the adjacency list first before beginning the breadth first search algorithm.
 	                allComboDict.computeIfAbsent(newWord, k -> new ArrayList<>()).add(word);
 	              }
 	            });
 	    
 	    
-	    // Queue for BFS
+	    // Queue for BFS - word and it's length
 	    Queue<Pair<String, Integer>> Q = new LinkedList<Pair<String, Integer>>();
 	    Q.add(new Pair<String, Integer>(beginWord, 1));
 
@@ -82,7 +82,7 @@ public class LadderLength {
 	    while (!Q.isEmpty()) {
 	    	Pair<String, Integer> node = Q.remove();
 	        String word = node.getKey();
-	        int level = level = node.getValue();
+	        int level = node.getValue();
 	        
 	        for (int i = 0; i < L; i++) {
 
@@ -101,7 +101,7 @@ public class LadderLength {
 	                // Otherwise, add it to the BFS Queue. Also mark it visited
 	                if (!visited.containsKey(adjacentWord)) {
 	                  visited.put(adjacentWord, true);
-	                  Q.add(new Pair(adjacentWord, level + 1));
+	                  Q.add(new Pair<String, Integer>(adjacentWord, level + 1));
 	                }
 	            } 
 	        }
