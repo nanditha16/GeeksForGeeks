@@ -24,7 +24,8 @@ public class LeetCode14DayDS {
 //			System.out.println(num + " ");
 //		}
 		
-		
+		int[] prices = {7,1,5,3,6,4};
+		System.out.println(maxProfit(prices));
 	}
 	
 	public static boolean isDuplicateArray(int[] nums) {
@@ -130,6 +131,29 @@ public class LeetCode14DayDS {
         
     }
 	
-	
+	 public static int maxProfit(int[] prices) {
+		 //brute force 
+//		 int profit = 0;
+//		 for(int i=0; i< prices.length; i++) {
+//			 for(int j=i+1; j<prices.length; j++) {
+//				 
+//				 if((prices[j]-prices[i] > 0) && (prices[j]-prices[i] > profit )) {
+//					 profit = (prices[j]-prices[i]);
+//					 
+//				 }
+//			 }
+//		 }
+//		return profit;	     
+		 
+		 // Method 2 : O(n)
+		 int max_profit = 0, min_so_far  = Integer.MAX_VALUE;
+		 
+		 for(int i=0; i< prices.length; i++) {
+			 min_so_far = Math.min(min_so_far, prices[i]);
+			 max_profit = Math.max(max_profit, prices[i] -min_so_far);
+			 
+		 }
+			return max_profit;	
+	 }
 	
 }
