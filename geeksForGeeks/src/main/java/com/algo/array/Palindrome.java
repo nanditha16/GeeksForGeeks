@@ -2,6 +2,7 @@ package com.algo.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Palindrome {
 
@@ -152,28 +153,51 @@ public class Palindrome {
 	}
 	
 	public static void main(String[] args) {
-		int arr[] = { 1, 2, 3, 2, 1 }; 
-       
-        System.out.println("Is " + Arrays.toString(arr) + " a Palindrome array? -> " + 
-                (isArrayPalindrome(arr) == 1 ? "true" : "false")); 
-      
-        
-        int n = 4562; 
-        System.out.println("Is " + n + " a Palindrome number? -> " + 
-            (isNumberPalindrome(n) == 1 ? "true" : "false")); 
-      
-        n = 2002; 
-          
-        System.out.println("Is " + n + " a Palindrome number? -> " + 
-            (isNumberPalindrome(n) == 1 ? "true" : "false")); 
-  
-        System.out.println("Is " + "malayalam" + " a Palindrome array? -> " + 
-                (isStringPalindrome("malayalam") == 1 ? "true" : "false")); 
-        
-        System.out.println("Is " + "GeeksforGeeks" + " a Palindrome array? -> " + 
-                (isStringPalindrome("GeeksforGeeks") == 1 ? "true" : "false")); 
+//		int arr[] = { 1, 2, 3, 2, 1 }; 
+//       
+//        System.out.println("Is " + Arrays.toString(arr) + " a Palindrome array? -> " + 
+//                (isArrayPalindrome(arr) == 1 ? "true" : "false")); 
+//      
+//        
+//        int n = 4562; 
+//        System.out.println("Is " + n + " a Palindrome number? -> " + 
+//            (isNumberPalindrome(n) == 1 ? "true" : "false")); 
+//      
+//        n = 2002; 
+//          
+//        System.out.println("Is " + n + " a Palindrome number? -> " + 
+//            (isNumberPalindrome(n) == 1 ? "true" : "false")); 
+//  
+//        System.out.println("Is " + "malayalam" + " a Palindrome array? -> " + 
+//                (isStringPalindrome("malayalam") == 1 ? "true" : "false")); 
+//        
+//        System.out.println("Is " + "GeeksforGeeks" + " a Palindrome array? -> " + 
+//                (isStringPalindrome("GeeksforGeeks") == 1 ? "true" : "false")); 
      
+		System.out.println(genNLengthStringPalindrome(7, 9));
      
 	}
+	
+	public static String genNLengthStringPalindrome(int N, int K) {
+	    // some palindromes cannot be created with supplied conditions.
+	    if (K < ((N+1)/2) || K > 26) {
+	        //System.out.printf("Not possible with '%d' character set and a length of %d%n", K, N);
+	        return null;
+	    }
+
+	    char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+	    Random r = new Random();
+	    StringBuilder halfPal = new StringBuilder();
+	    int halfLength = (N+1)/2;
+	    // this loop generates distinct characters and appends them to the StringBuilder
+	    while(halfLength-- > 0) {
+	        int ci = r.nextInt(K);
+	        halfPal.append(chars[ci]);
+	        chars[ci] = chars[--K];
+	    }
+	    return halfPal.append(new 
+	     StringBuilder(halfPal).reverse().substring(N%2)).toString();
+	}
+	
 
 }
