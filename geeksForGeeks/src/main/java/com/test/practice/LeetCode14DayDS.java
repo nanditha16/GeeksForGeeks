@@ -31,7 +31,34 @@ public class LeetCode14DayDS {
 //		int[][] arr = {{1, 2}, {3, 4}};
 //		matrixReshape(arr,2, 4) ;
 
-		generatePascalTriangle(5);
+//		generatePascalTriangle(5);
+		
+//		char[][] boardT = {{'5','3','.','.','7','.','.','.','.'},
+//				{'6','.','.','1','9','5','.','.','.'},
+//				{'.','9','8','.','.','.','.','6','.'},
+//				{'8','.','.','.','6','.','.','.','3'},
+//				{'4','.','.','8','.','3','.','.','1'},
+//				{'7','.','.','.','2','.','.','.','6'},
+//				{'.','6','.','.','.','.','2','8','.'},
+//				{'.','.','.','4','1','9','.','.','5'},
+//				{'.','.','.','.','8','.','.','7','9'}};
+//		
+//		char[][] boardF = {{'8','3','.','.','7','.','.','.','.'},
+//				{'6','.','.','1','9','5','.','.','.'},
+//				{'.','9','8','.','.','.','.','6','.'},
+//				{'8','.','.','.','6','.','.','.','3'},
+//				{'4','.','.','8','.','3','.','.','1'},
+//				{'7','.','.','.','2','.','.','.','6'},
+//				{'.','6','.','.','.','.','2','8','.'},
+//				{'.','.','.','4','1','9','.','.','5'},
+//				{'.','.','.','.','8','.','.','7','9'}};
+//		
+//		System.out.println(isValidSudoku(boardT));
+//		
+		int[][] matrix = {{1,3,5,7},{10,11,16,20},{23,30,34,60}};
+		System.out.println(searchMatrix(matrix, 16));
+		
+		
 	}
 
 	public static boolean isDuplicateArray(int[] nums) {
@@ -223,4 +250,46 @@ public class LeetCode14DayDS {
 		return tri;
 
 	}
+
+	public static boolean isValidSudoku(char[][] board) {
+		   HashSet<String> seen = new HashSet<>();
+			
+			for(int i=0; i< board.length; i++) {
+				for(int j=0; j< board[i].length; j++) {
+					char current_val = board[i][j];
+	                if(current_val!='.'){
+	                    //Each row must contain the digits 1-9 without repetition
+	                    if(!seen.add(current_val+"row"+i) ||
+	                     //Each column must contain the digits 1-9 without repetition.  
+					   !seen.add(current_val+"col"+j) ||
+	                       //Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+					   !seen.add(current_val+"row"+i/3+"col"+j/3)) {
+	                    return false;
+	                    }
+	                }
+				}
+			}
+			return true;
+	}
+
+	public static boolean searchMatrix(int[][] matrix, int target) {
+		int row=0;
+        int col = matrix[0].length-1;
+        while(row<matrix.length && col>=0){ //O(m+n)
+            if(matrix[row][col]==target){
+                return true;
+            }
+            //move to next row, if the last element in the said row is < target
+            if(matrix[row][col]<target){
+                row++;
+            }else{
+            	//move the counter from last to first column if 
+            	//we get the row in which it could possibly be. (Linear)
+                col--;
+            }
+          
+        }
+        return false; 
+	}
+
 }
