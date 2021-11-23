@@ -32,7 +32,7 @@ public class LeetCode14DayDS {
 //		matrixReshape(arr,2, 4) ;
 
 //		generatePascalTriangle(5);
-		
+
 //		char[][] boardT = {{'5','3','.','.','7','.','.','.','.'},
 //				{'6','.','.','1','9','5','.','.','.'},
 //				{'.','9','8','.','.','.','.','6','.'},
@@ -55,10 +55,15 @@ public class LeetCode14DayDS {
 //		
 //		System.out.println(isValidSudoku(boardT));
 //		
-		int[][] matrix = {{1,3,5,7},{10,11,16,20},{23,30,34,60}};
-		System.out.println(searchMatrix(matrix, 16));
+//		int[][] matrix = {{1,3,5,7},{10,11,16,20},{23,30,34,60}};
+//		System.out.println(searchMatrix(matrix, 16));
+
+//		System.out.println(firstUniqChar("aabb"));
+//		System.out.println(canConstruct("aa", "ab"));
+//		System.out.println(isAnagram("aa", "aa"));
 		
 		
+
 	}
 
 	public static boolean isDuplicateArray(int[] nums) {
@@ -252,44 +257,124 @@ public class LeetCode14DayDS {
 	}
 
 	public static boolean isValidSudoku(char[][] board) {
-		   HashSet<String> seen = new HashSet<>();
-			
-			for(int i=0; i< board.length; i++) {
-				for(int j=0; j< board[i].length; j++) {
-					char current_val = board[i][j];
-	                if(current_val!='.'){
-	                    //Each row must contain the digits 1-9 without repetition
-	                    if(!seen.add(current_val+"row"+i) ||
-	                     //Each column must contain the digits 1-9 without repetition.  
-					   !seen.add(current_val+"col"+j) ||
-	                       //Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
-					   !seen.add(current_val+"row"+i/3+"col"+j/3)) {
-	                    return false;
-	                    }
-	                }
+		HashSet<String> seen = new HashSet<>();
+
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				char current_val = board[i][j];
+				if (current_val != '.') {
+					// Each row must contain the digits 1-9 without repetition
+					if (!seen.add(current_val + "row" + i) ||
+					// Each column must contain the digits 1-9 without repetition.
+							!seen.add(current_val + "col" + j) ||
+							// Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9
+							// without repetition.
+							!seen.add(current_val + "row" + i / 3 + "col" + j / 3)) {
+						return false;
+					}
 				}
 			}
-			return true;
+		}
+		return true;
 	}
 
 	public static boolean searchMatrix(int[][] matrix, int target) {
-		int row=0;
-        int col = matrix[0].length-1;
-        while(row<matrix.length && col>=0){ //O(m+n)
-            if(matrix[row][col]==target){
-                return true;
-            }
-            //move to next row, if the last element in the said row is < target
-            if(matrix[row][col]<target){
-                row++;
-            }else{
-            	//move the counter from last to first column if 
-            	//we get the row in which it could possibly be. (Linear)
-                col--;
-            }
-          
-        }
-        return false; 
+		int row = 0;
+		int col = matrix[0].length - 1;
+		while (row < matrix.length && col >= 0) { // O(m+n)
+			if (matrix[row][col] == target) {
+				return true;
+			}
+			// move to next row, if the last element in the said row is < target
+			if (matrix[row][col] < target) {
+				row++;
+			} else {
+				// move the counter from last to first column if
+				// we get the row in which it could possibly be. (Linear)
+				col--;
+			}
+
+		}
+		return false;
 	}
 
+	public static int firstUniqChar(String s) {
+		Map<Character, Integer> freqCount = new HashMap<>();
+
+		for (int i = 0; i < s.length(); i++) {
+			if (freqCount.containsKey(s.charAt(i))) {
+				freqCount.put(s.charAt(i), freqCount.get(s.charAt(i)) + 1);
+			} else {
+				freqCount.put(s.charAt(i), 1);
+			}
+
+		}
+
+		for (int i = 0; i < s.length(); i++) {
+			if (freqCount.get(s.charAt(i)) == 1) {
+				return i;
+			}
+		}
+		return -1;
+
+	}
+
+	public static boolean canConstruct(String ransomNote, String magazine) {
+		// Method 1:
+		if (ransomNote.length() < magazine.length()) {
+			return false;
+		}
+
+		Map<Character, Integer> magazineFreqCount = new HashMap<>();
+
+		for (int i = 0; i < magazine.length(); i++) {
+			if (magazineFreqCount.containsKey(magazine.charAt(i))) {
+				magazineFreqCount.put(magazine.charAt(i), magazineFreqCount.get(magazine.charAt(i)) + 1);
+			} else {
+				magazineFreqCount.put(magazine.charAt(i), 1);
+			}
+
+		}
+
+		for (int i = 0; i < ransomNote.length(); i++) {
+			if (magazineFreqCount.containsKey(ransomNote.charAt(i))
+					&& magazineFreqCount.get(ransomNote.charAt(i)) != 0) {
+				magazineFreqCount.put(ransomNote.charAt(i), magazineFreqCount.get(ransomNote.charAt(i)) - 1);
+			} else {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public static boolean isAnagram(String s, String t) {
+		if(s.length() != t.length()) {
+			return false;
+		}
+		
+		Map<Character, Integer> freqCount = new HashMap<>();
+
+		for (int i = 0; i < s.length(); i++) {
+			if (freqCount.containsKey(s.charAt(i))) {
+				freqCount.put(s.charAt(i), freqCount.get(s.charAt(i)) + 1);
+			} else {
+				freqCount.put(s.charAt(i), 1);
+			}
+
+		}
+
+
+		for (int i = 0; i < t.length(); i++) {
+			if (freqCount.containsKey(t.charAt(i))
+					&& freqCount.get(t.charAt(i)) != 0) {
+				freqCount.put(t.charAt(i), freqCount.get(t.charAt(i)) - 1);
+			} else {
+				return false;
+			}
+		}
+		return true;
+
+	}
 }
