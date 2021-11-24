@@ -2,6 +2,8 @@ package com.algo.linkedList;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.Set;
+
 
 public class CircularLinkedList {
 	
@@ -150,10 +152,18 @@ public class CircularLinkedList {
 	 * Reverse a linked List - Iterative method
 	 */
 	static NodeLinedList reverse(NodeLinedList head){
-		NodeLinedList current = head; 
+		//bad case 
+        if(head == null) return null;
+        
+        NodeLinedList current = head; 
+        
+        //case 1 : single node
+        if(current.next == null) return head;
+        
         NodeLinedList prev = null; 
         NodeLinedList next = null; 
         
+        //case 2 : iteration if multi node
         while (current.next != null) { 
         	//save next value
             next = current.next; 
@@ -430,126 +440,224 @@ public class CircularLinkedList {
 		return slow;
 	}
 
+	
+	 /*
+	  * Remove Linked List Elements and return the updated list
+	  * Remove first occurrence 
+	  */
+	public static NodeLinedList removeElements(NodeLinedList head, int val) {
+		 //bad case :
+		if(head == null) return null;
+		
+		
+		 // Case 1: if head is the value to be deleted
+		 if(head.data == val) {
+			 head = head.next;
+			 return head; 
+
+		 }
+		 
+		 // Case 2: if value is in the middle or end
+		 // Initialize current to traverse through the link
+		 NodeLinedList current = head;
+		 while(current.next != null) {
+			 if(current.next.data == val) {
+				 current.next = current.next.next;
+				 continue;
+			 }
+			 current = current.next;
+		 }
+			
+		return head;
+	        
+	 }
+	 
+	 /*
+	  * Remove Linked List Elements and return the updated list
+	  * Remove all occurrence 
+	  */
+	public static NodeLinedList removeAllElements(NodeLinedList head, int val) {
+		 //bad case :
+		if(head == null) return null;
+				
+		 // Case 1: recursively look for the val and keep deleting
+		 head.next = removeAllElements(head.next, val);
+	        
+		 // case 2: recursion break
+			return head.data == val?head.next: head;
+	 }
+	
+	/*
+	 * Duplicate deletion from sorted linked list
+	 */
+	public static NodeLinedList deleteDuplicates(NodeLinedList head) {
+		//bad case :
+		if(head == null) return null;
+		  
+        NodeLinedList current = head; 
+        
+        //case 1 : single node
+        if(current.next == null) return head;
+        
+        //two pointers to iterate
+        NodeLinedList prev = head; 
+        current = head.next;
+        
+        //case 2 : iteration if multi node
+        while (current != null) { 
+        	if(current.data == prev.data) {
+        		NodeLinedList temp = current.next;
+        		prev.next = temp;
+        		current.next = null;
+        		current = temp;
+        	} else {
+        		prev = prev.next;
+        		current = current.next;
+        	}
+        }
+       return head;
+ 
+    }
+
 	//Driver
 	public static void main(String[] args) {
-		// Start with empty list 
-	    NodeLinedList head = null; 
-	  
-	    // singly linked list : 17.22.13.14.15
-	    head = push(head, 15); 
-	    head = push(head, 14); 
-	    head = push(head, 13); 
-	    head = push(head, 22); 
-	    head = push(head, 17);
-	    
-	    // O(n)
-	    circular(head);
-	    
-	    System.out.print("Display Circular list: \n"); 
-	    displayCircularList(head);
-	    
-	    // detect a loop - O(<=n))
-	    System.out.println(detectLoop(head));
-	   
-	    // list 1 
-        NodeLinedList n1 = new NodeLinedList(1); 
-        n1.next = new NodeLinedList(2); 
-        n1.next.next = new NodeLinedList(3); 
-        n1.next.next.next = new NodeLinedList(4); 
-        n1.next.next.next.next = new NodeLinedList(5); 
-        n1.next.next.next.next.next = new NodeLinedList(6); 
-        n1.next.next.next.next.next.next = new NodeLinedList(7); 
-        
-        // list 2 
-        NodeLinedList n2 = new NodeLinedList(10); 
-        n2.next = new NodeLinedList(9); 
-        n2.next.next = new NodeLinedList(8); 
-        n2.next.next.next = n1.next.next.next; 
-        
-        System.out.print("To find the merge point of lists: \n"); 
-        
-        displaySinglyList(n1);
-        displaySinglyList(n2);
-        
-        findMergeNode(n1, n2);
-        
-        displaySinglyList(n1);
-        displaySinglyList(n2);
-        
-        System.out.print("To find the reverse of list: \n"); 
-        NodeLinedList n2Reverse = reverse(n2);
-        displaySinglyList(n2Reverse);
-        
-        NodeLinedList n2ReverseRecur = reverseRecursively(n2Reverse);
-        displaySinglyList(n2ReverseRecur);
-        
-       
-	    // singly linked list :  1->2->3->4->5->6->7->8->8->9->null 
-        NodeLinedList reverseTest = null; 
-        reverseTest = push(reverseTest, 9);
-        reverseTest = push(reverseTest, 8);
-        reverseTest = push(reverseTest, 7);
-        reverseTest = push(reverseTest, 6);
-        reverseTest = push(reverseTest, 5);
-        reverseTest = push(reverseTest, 4);
-        reverseTest = push(reverseTest, 3);
-        reverseTest = push(reverseTest, 2); 
-        reverseTest = push(reverseTest, 1); 
-        displaySinglyList(reverseTest);
-       
-        NodeLinedList reverseK = reverseK(reverseTest, 3);
-        displaySinglyList(reverseK);
-        
-        NodeLinedList reverseStackK = reverseKUsingStack(reverseK, 3);
-        displaySinglyList(reverseStackK);
-        
-        NodeLinedList reverseCircular = new NodeLinedList(1); 
-        reverseCircular.next = new NodeLinedList(2); 
-        reverseCircular.next.next = new NodeLinedList(3); 
-        reverseCircular.next.next.next = new NodeLinedList(4);
-        reverseCircular.next.next.next.next = reverseCircular; 
-        
-        System.out.print("Display Circular reversed list: \n");
-	    displayCircularList(reverseCircular);
-	    reverseCircular(reverseCircular);
-	    displayCircularList(reverseCircular);
-	    
-	    
-	    // to add two linked list nodes
-	    System.out.println("Sum of 2 linked list : ");
-	    NodeLinedList l1 = null; 
-		// singly linked list : 365
-	    l1 = push(l1, 3); 
-	    l1 = push(l1, 6); 
-	    l1 = push(l1, 5); 
-	    
-	    NodeLinedList l2 = null; 
-		// singly linked list : 248
-	    l2 = push(l2, 2); 
-	    l2 = push(l2, 4); 
-	    l2 = push(l2, 8); 
-	    
-	    NodeLinedList l3 = sum(l1, l2); 
-	    displaySinglyList(l3);
-	   
+//		// Start with empty list 
+//	    NodeLinedList head = null; 
+//	  
+//	    // singly linked list : 17.22.13.14.15
+//	    head = push(head, 15); 
+//	    head = push(head, 14); 
+//	    head = push(head, 13); 
+//	    head = push(head, 22); 
+//	    head = push(head, 17);
+//	    
+//	    // O(n)
+//	    circular(head);
+//	    
+//	    System.out.print("Display Circular list: \n"); 
+//	    displayCircularList(head);
+//	    
+//	    // detect a loop - O(<=n))
+//	    System.out.println(detectLoop(head));
+//	   
+//	    // list 1 
+//        NodeLinedList n1 = new NodeLinedList(1); 
+//        n1.next = new NodeLinedList(2); 
+//        n1.next.next = new NodeLinedList(3); 
+//        n1.next.next.next = new NodeLinedList(4); 
+//        n1.next.next.next.next = new NodeLinedList(5); 
+//        n1.next.next.next.next.next = new NodeLinedList(6); 
+//        n1.next.next.next.next.next.next = new NodeLinedList(7); 
+//        
+//        // list 2 
+//        NodeLinedList n2 = new NodeLinedList(10); 
+//        n2.next = new NodeLinedList(9); 
+//        n2.next.next = new NodeLinedList(8); 
+//        n2.next.next.next = n1.next.next.next; 
+//        
+//        System.out.print("To find the merge point of lists: \n"); 
+//        
+//        displaySinglyList(n1);
+//        displaySinglyList(n2);
+//        
+//        findMergeNode(n1, n2);
+//        
+//        displaySinglyList(n1);
+//        displaySinglyList(n2);
+//        
+//        System.out.print("To find the reverse of list: \n"); 
+//        NodeLinedList n2Reverse = reverse(n2);
+//        displaySinglyList(n2Reverse);
+//        
+//        NodeLinedList n2ReverseRecur = reverseRecursively(n2Reverse);
+//        displaySinglyList(n2ReverseRecur);
+//        
+//       
+//	    // singly linked list :  1->2->3->4->5->6->7->8->8->9->null 
+//        NodeLinedList reverseTest = null; 
+//        reverseTest = push(reverseTest, 9);
+//        reverseTest = push(reverseTest, 8);
+//        reverseTest = push(reverseTest, 7);
+//        reverseTest = push(reverseTest, 6);
+//        reverseTest = push(reverseTest, 5);
+//        reverseTest = push(reverseTest, 4);
+//        reverseTest = push(reverseTest, 3);
+//        reverseTest = push(reverseTest, 2); 
+//        reverseTest = push(reverseTest, 1); 
+//        displaySinglyList(reverseTest);
+//       
+//        NodeLinedList reverseK = reverseK(reverseTest, 3);
+//        displaySinglyList(reverseK);
+//        
+//        NodeLinedList reverseStackK = reverseKUsingStack(reverseK, 3);
+//        displaySinglyList(reverseStackK);
+//        
+//        NodeLinedList reverseCircular = new NodeLinedList(1); 
+//        reverseCircular.next = new NodeLinedList(2); 
+//        reverseCircular.next.next = new NodeLinedList(3); 
+//        reverseCircular.next.next.next = new NodeLinedList(4);
+//        reverseCircular.next.next.next.next = reverseCircular; 
+//        
+//        System.out.print("Display Circular reversed list: \n");
+//	    displayCircularList(reverseCircular);
+//	    reverseCircular(reverseCircular);
+//	    displayCircularList(reverseCircular);
+//	    
+//	    
+//	    // to add two linked list nodes
+//	    System.out.println("Sum of 2 linked list : ");
+//	    NodeLinedList l1 = null; 
+//		// singly linked list : 365
+//	    l1 = push(l1, 3); 
+//	    l1 = push(l1, 6); 
+//	    l1 = push(l1, 5); 
+//	    
+//	    NodeLinedList l2 = null; 
+//		// singly linked list : 248
+//	    l2 = push(l2, 2); 
+//	    l2 = push(l2, 4); 
+//	    l2 = push(l2, 8); 
+//	    
+//	    NodeLinedList l3 = sum(l1, l2); 
+//	    displaySinglyList(l3);
+//	   
 	    /* 
 		    * To check Sorting using MergeSort
 		    *  
 		    */
 		    NodeLinedList li = null; 
 			// singly linked list : 2->3->20->5->10->15 
-		    li = push(li, 15); 
-		    li = push(li, 10); 
-		    li = push(li, 5); 
-		    li = push(li, 20); 
-		    li = push(li, 3); 
-		    li = push(li, 2); 
+//		    li = push(li, 15); 
+//		    li = push(li, 10); 
+//		    li = push(li, 5); 
+//		    li = push(li, 20); 
+//		    li = push(li, 3); 
+//		    li = push(li, 2); 
 		    
 		    // Apply merge Sort 
-		    System.out.println("To merge Sort a linked list : ");
+//		    System.out.println("To merge Sort a linked list : ");
+		    li = push(li, 6); 
+		    li = push(li, 7); 
+		    li = push(li, 7); 
+		    li = push(li, 8);
+		    
 		    displaySinglyList(li);
-		    li = mergeSort(li); 
-		    displaySinglyList(li);
+//		    li = mergeSort(li); 
+//		    displaySinglyList(li);
+		    
+		    
+		    //remove element
+//		    System.out.println("After removing 7: ");
+//		    displaySinglyList(removeElements(li, 7));
+//		    
+		    //remove all occurrence element
+//		    System.out.println("After removing 7: ");
+//		    displaySinglyList(removeAllElements(li, 7));
+		    
+		    // remove all duplicates
+		    System.out.println("duplicate removal: ");
+		    displaySinglyList(deleteDuplicates(li));
+		    
 	}
 
 	
