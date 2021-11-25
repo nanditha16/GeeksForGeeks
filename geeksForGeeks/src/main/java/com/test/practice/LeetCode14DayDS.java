@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class LeetCode14DayDS {
 
@@ -62,7 +63,7 @@ public class LeetCode14DayDS {
 //		System.out.println(canConstruct("aa", "ab"));
 //		System.out.println(isAnagram("aa", "aa"));
 		
-		
+		System.out.println(isValidParentheses("([)]"));
 
 	}
 
@@ -377,4 +378,26 @@ public class LeetCode14DayDS {
 		return true;
 
 	}
+
+	public static boolean isValidParentheses(String s) {
+		Stack<Character> stack=new Stack<>();
+		
+		 HashMap<Character,Character> map=new HashMap<>();
+	        map.put('(',')');
+	        map.put('[',']');
+	        map.put('{','}');
+	       for(int i=0;i<s.length();i++)
+	       {
+	           if(stack.isEmpty())
+	               stack.push(s.charAt(i));
+	           else if(map.containsKey(stack.peek()) && map.get(stack.peek())==s.charAt(i))
+	               stack.pop();
+	           else
+	               stack.push(s.charAt(i));
+	       }
+	       return stack.isEmpty();       
+	}
+
+	
+
 }
